@@ -1,20 +1,67 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import ScanQRCode from "./components/ScanQRCode";
+
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Maps from "./components/Maps";
+import Profile from "./components/Profile";
+import Badge from "./components/Badge";
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        activeColor="black"
+        inactiveColor="#3e2465"
+        barStyle={{ backgroundColor: "white", height: 80 }}
+        screenOptions={{ headerShown: false }}
+      >
+        <Tab.Screen
+          name="Scan"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="barcode-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={ScanQRCode}
+        />
+
+        <Tab.Screen
+          name="Maps"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="map-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={Maps}
+        />
+
+        <Tab.Screen
+          name="Badge"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="trophy-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={Badge}
+        />
+
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person-circle-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={Profile}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
