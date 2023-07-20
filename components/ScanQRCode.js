@@ -97,7 +97,10 @@ const ScanQRCode = ({ route, navigation }) => {
           ]}
         >
           {scanned && markerBounds && (
-            <Pressable style={styles.linkMessage}>
+            <Pressable
+              style={styles.linkMessage}
+              onPress={() => navigation.navigate("Badge")}
+            >
               <Text style={styles.linkText}>{link}</Text>
             </Pressable>
           )}
