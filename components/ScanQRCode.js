@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import axios from "axios";
 
 const ScanQRCode = ({ route, navigation }) => {
   // const navigate = useNavigation();
@@ -77,6 +78,11 @@ const ScanQRCode = ({ route, navigation }) => {
     // ]);
   };
 
+  const addBadge = (data) => {
+    axios.post("http://10.74.0.59:3000/api/badges", data);
+    navigation.navigate("Badge");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <BarCodeScanner
@@ -99,7 +105,7 @@ const ScanQRCode = ({ route, navigation }) => {
           {scanned && markerBounds && (
             <Pressable
               style={styles.linkMessage}
-              onPress={() => navigation.navigate("Badge", link)}
+              onPress={() => addBadge(link)}
             >
               <Text style={styles.linkText}>{link}</Text>
             </Pressable>

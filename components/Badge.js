@@ -40,7 +40,7 @@ export default function Badge() {
         return "silver";
       case "GOLD":
         return "gold";
-      case "PLATINE":
+      case "PLATINUM":
         return "gray";
       default:
         return "black";
@@ -146,14 +146,14 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     paddingHorizontal: 20,
     flex: 0.8,
     flexWrap: "wrap",
   },
   imageBadge: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
   },
   imageBadgeModal: {
     width: 200,
@@ -204,6 +204,8 @@ const styles = StyleSheet.create({
     marginTop: 25,
     textAlign: "center",
     marginBottom: 25,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   modalRank: {
     textAlign: "center",

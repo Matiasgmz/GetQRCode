@@ -40,7 +40,7 @@ export default function Profile() {
             <Image style={styles.profileImage} source={{ uri: imageUri }} />
             <Text style={styles.textName}>Matias Gomez</Text>
 
-            <View style={{ flex: 1, width: "auto", marginTop: 25 }}>
+            <View style={{ flex: 1, width: "auto", marginTop: 25, padding: 5 }}>
               <TextInput
                 placeholder="Email"
                 style={styles.input}
