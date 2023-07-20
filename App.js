@@ -23,7 +23,7 @@ export default function App() {
           name="Scan"
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="barcode-outline" color={color} size={25} />
+              <Ionicons name="scan-outline" color={color} size={25} />
             ),
             tabBarLabel: "",
           }}

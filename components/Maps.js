@@ -41,6 +41,7 @@ export default function Maps() {
     <View style={{ flex: 1 }}>
       {location && (
         <MapView
+          zoomEnabled
           style={{ flex: 1 }}
           initialRegion={{
             latitude: location.latitude,

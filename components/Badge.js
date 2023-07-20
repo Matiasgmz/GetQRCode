@@ -32,6 +32,21 @@ export default function Badge() {
     fetchUsers();
   }, []);
 
+  const getBadgeColor = (rank) => {
+    switch (rank) {
+      case "BRONZE":
+        return "brown";
+      case "SILVER":
+        return "silver";
+      case "GOLD":
+        return "gold";
+      case "PLATINE":
+        return "gray";
+      default:
+        return "black";
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
       <ScrollView>
@@ -61,55 +76,62 @@ export default function Badge() {
         <Modal visible={modalVisible} animationType="fade" transparent={true}>
           {badgeSelected !== -1 && (
             <View style={styles.modalView}>
-              <View style={styles.containerIcons}>
-                <Ionicons
-                  style={styles.iconClose}
-                  name="close-circle"
-                  onPress={() => setModalVisible(false)}
-                  color={"black"}
-                  size={45}
-                />
-              </View>
-
-              <View>
-                <View style={styles.containerImageModal}>
-                  <Image
-                    style={styles.imageBadgeModal}
-                    source={{ uri: badges[badgeSelected].picture }}
+              <ScrollView>
+                <View style={styles.containerIcons}>
+                  <Ionicons
+                    style={styles.iconClose}
+                    name="close-circle"
+                    onPress={() => setModalVisible(false)}
+                    color={"black"}
+                    size={45}
                   />
                 </View>
 
-                <Text style={styles.modalTitle}>
-                  {badges[badgeSelected].name}
-                </Text>
+                <View>
+                  <View style={styles.containerImageModal}>
+                    <Image
+                      style={styles.imageBadgeModal}
+                      source={{ uri: badges[badgeSelected].picture }}
+                    />
+                  </View>
 
-                <Text style={styles.modalRank}>
-                  {badges[badgeSelected].rank}
-                </Text>
+                  <Text style={styles.modalTitle}>
+                    {badges[badgeSelected].name}
+                  </Text>
 
-                <Text style={styles.modalDescription}>
-                  {badges[badgeSelected].description}
-                </Text>
+                  <Text
+                    style={[
+                      styles.modalRank,
+                      { color: getBadgeColor(badges[badgeSelected].rank) }, // Définir la couleur du texte en fonction du rang du badge
+                    ]}
+                  >
+                    {badges[badgeSelected].rank}
+                  </Text>
 
-                <MapView
-                  style={{ width: "100%", height: 250, borderRadius: 8 }}
-                  minZoomLevel={10}
-                  initialRegion={{
-                    latitude: badges[badgeSelected].coordinates.latitude,
-                    longitude: badges[badgeSelected].coordinates.longitude,
-                    latitudeDelta: 5,
-                    latitudeDelta: 5,
-                  }}
-                >
-                  <Marker
-                    coordinate={{
+                  <Text style={styles.modalDescription}>
+                    {badges[badgeSelected].description}
+                  </Text>
+
+                  <MapView
+                    style={{ width: "100%", height: 250, borderRadius: 8 }}
+                    minZoomLevel={10}
+                    initialRegion={{
                       latitude: badges[badgeSelected].coordinates.latitude,
                       longitude: badges[badgeSelected].coordinates.longitude,
+                      latitudeDelta: 5,
+                      latitudeDelta: 5,
                     }}
-                    title={badges[badgeSelected].name}
-                  />
-                </MapView>
-              </View>
+                  >
+                    <Marker
+                      coordinate={{
+                        latitude: badges[badgeSelected].coordinates.latitude,
+                        longitude: badges[badgeSelected].coordinates.longitude,
+                      }}
+                      title={badges[badgeSelected].name}
+                    />
+                  </MapView>
+                </View>
+              </ScrollView>
             </View>
           )}
         </Modal>
@@ -147,6 +169,7 @@ const styles = StyleSheet.create({
   textBadge: {
     width: 85,
     textAlign: "center",
+    fontWeight: "bold",
   },
   modalView: {
     margin: 10,
@@ -185,7 +208,7 @@ const styles = StyleSheet.create({
   modalRank: {
     textAlign: "center",
     marginTop: 25,
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
   },
   iconClose: {
