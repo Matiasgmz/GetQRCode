@@ -53,16 +53,6 @@ export default function App() {
         />
 
         <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person-circle-outline" color={color} size={25} />
-            ),
-            tabBarLabel: "",
-          }}
-          component={Profile}
-        />
-        <Tab.Screen
           name="AddBadge"
           options={{
             tabBarIcon: ({ color, size }) => (
@@ -71,6 +61,16 @@ export default function App() {
             tabBarLabel: "",
           }}
           component={FormBadge}
+        />
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person-circle-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={Profile}
         />
       </Tab.Navigator>
     </NavigationContainer>

@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     height: 100, // Hauteur du marqueur
   },
   linkMessage: {
-    position: "relative",
+    position: "absolute",
     top: "105%",
     left: 0,
     right: 0,
@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     width: "100%",
+    alignSelf: "flex-start",
   },
   linkText: {
     fontSize: 16,

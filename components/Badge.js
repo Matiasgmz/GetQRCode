@@ -92,12 +92,13 @@ export default function Badge() {
                 </Text>
 
                 <MapView
-                  style={{ width: "100%", height: "25%" }}
+                  style={{ width: "100%", height: 250, borderRadius: 8 }}
+                  minZoomLevel={10}
                   initialRegion={{
                     latitude: badges[badgeSelected].coordinates.latitude,
                     longitude: badges[badgeSelected].coordinates.longitude,
-                    latitudeDelta: 0.0922,
-                    latitudeDelta: 0.0421,
+                    latitudeDelta: 5,
+                    latitudeDelta: 5,
                   }}
                 >
                   <Marker
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 5,
   },
