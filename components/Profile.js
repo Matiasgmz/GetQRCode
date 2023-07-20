@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -7,52 +7,71 @@ import {
   Text,
   TextInput,
   View,
+  KeyboardAvoidingView,
 } from "react-native";
 
 export default function Profile() {
-  const [text, onChangeText] = React.useState();
+  const [text, onChangeText] = useState("");
+  const [imageUri, setImageUri] = useState(
+    "https://thispersondoesnotexist.com/"
+  );
+
+  const handleUrlChange = (url) => {
+    setImageUri(url);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            alignSelf: "center",
-            marginTop: 50,
-            width: "100%",
-          }}
-        >
-          <Image
-            style={styles.profileImage}
-            source={{ uri: "https://thispersondoesnotexist.com/" }}
-          />
-          <Text style={styles.textName}>Matias Gomez</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+        style={{ flex: 1 }}
+      >
+        <ScrollView>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              alignSelf: "center",
+              marginTop: 50,
+              width: "100%",
+            }}
+          >
+            <Image style={styles.profileImage} source={{ uri: imageUri }} />
+            <Text style={styles.textName}>Matias Gomez</Text>
 
-          <View style={{ flex: 1, width: "auto", marginTop: 25 }}>
-            <Text style={styles.textInput}>Email</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
-            />
+            <View style={{ flex: 1, width: "auto", marginTop: 25 }}>
+              <TextInput
+                placeholder="Email"
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={text}
+              />
 
-            <Text style={styles.textInput}>Nom</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
-            />
+              <TextInput
+                placeholder="Nom"
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={text}
+              />
 
-            <Text style={styles.textInput}>Prénom</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
-            />
+              <TextInput
+                placeholder="Prénom"
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={text}
+              />
+
+              <TextInput
+                placeholder="URL"
+                style={styles.input}
+                onChangeText={handleUrlChange}
+                value={imageUri}
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

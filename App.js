@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Maps from "./components/Maps";
 import Profile from "./components/Profile";
 import Badge from "./components/Badge";
+import FormBadge from "./components/FormBadge";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -60,6 +61,16 @@ export default function App() {
             tabBarLabel: "",
           }}
           component={Profile}
+        />
+        <Tab.Screen
+          name="AddBadge"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="add-circle-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={FormBadge}
         />
       </Tab.Navigator>
     </NavigationContainer>

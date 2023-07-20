@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import MapView, { Marker } from "react-native-maps";
 
 export default function Badge() {
   const [badges, setBadges] = useState([]);
@@ -89,6 +90,24 @@ export default function Badge() {
                 <Text style={styles.modalDescription}>
                   {badges[badgeSelected].description}
                 </Text>
+
+                <MapView
+                  style={{ width: "100%", height: "25%" }}
+                  initialRegion={{
+                    latitude: badges[badgeSelected].coordinates.latitude,
+                    longitude: badges[badgeSelected].coordinates.longitude,
+                    latitudeDelta: 0.0922,
+                    latitudeDelta: 0.0421,
+                  }}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: badges[badgeSelected].coordinates.latitude,
+                      longitude: badges[badgeSelected].coordinates.longitude,
+                    }}
+                    title={badges[badgeSelected].name}
+                  />
+                </MapView>
               </View>
             </View>
           )}
