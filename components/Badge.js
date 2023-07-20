@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   imageBadge: {
-    width: 50,
-    height: 50,
+    width: 90,
+    height: 90,
   },
   imageBadgeModal: {
     width: 200,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 10,
-    marginTop: 0,
+    marginTop: 70,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 10,

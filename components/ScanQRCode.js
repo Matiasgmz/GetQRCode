@@ -97,7 +97,10 @@ const ScanQRCode = ({ route, navigation }) => {
           ]}
         >
           {scanned && markerBounds && (
-            <Pressable style={styles.linkMessage}>
+            <Pressable
+              style={styles.linkMessage}
+              onPress={() => navigation.navigate("Badge", link)}
+            >
               <Text style={styles.linkText}>{link}</Text>
             </Pressable>
           )}
@@ -151,8 +154,8 @@ const styles = StyleSheet.create({
   },
   marker: {
     position: "absolute",
-    borderWidth: 2,
-    borderColor: "green",
+    borderWidth: 4,
+    borderColor: "yellow",
     borderRadius: 10,
     width: 200, // Largeur du marqueur
     height: 100, // Hauteur du marqueur
