@@ -2,6 +2,7 @@ import React from "react";
 import {
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,44 +13,46 @@ export default function Profile() {
   const [text, onChangeText] = React.useState();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          alignSelf: "center",
-          marginTop: 50,
-          width: "100%",
-        }}
-      >
-        <Image
-          style={styles.profileImage}
-          source={{ uri: "https://thispersondoesnotexist.com/" }}
-        />
-        <Text style={styles.textName}>Matias Gomez</Text>
-
-        <View style={{ flex: 1, width: "auto", marginTop: 25 }}>
-          <Text style={styles.textInput}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
+      <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            alignSelf: "center",
+            marginTop: 50,
+            width: "100%",
+          }}
+        >
+          <Image
+            style={styles.profileImage}
+            source={{ uri: "https://thispersondoesnotexist.com/" }}
           />
+          <Text style={styles.textName}>Matias Gomez</Text>
 
-          <Text style={styles.textInput}>Nom</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-          />
+          <View style={{ flex: 1, width: "auto", marginTop: 25 }}>
+            <Text style={styles.textInput}>Email</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeText}
+              value={text}
+            />
 
-          <Text style={styles.textInput}>Prénom</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-          />
+            <Text style={styles.textInput}>Nom</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeText}
+              value={text}
+            />
+
+            <Text style={styles.textInput}>Prénom</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeText}
+              value={text}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

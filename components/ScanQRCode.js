@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import axios from "axios";
 
 const ScanQRCode = ({ route, navigation }) => {
   // const navigate = useNavigation();
@@ -20,36 +19,25 @@ const ScanQRCode = ({ route, navigation }) => {
 
   if (!permission?.granted) requestPermission();
 
-  const handleBarCodeScanned = async ({ data: url }) => {
-    console.log(route);
-
+  const handleBarCodeScanned = (data) => {
     if (route.name !== "Scan" || !navigation.isFocused()) return;
     setScanned(true);
+    console.log(data);
 
-    try {
-      const { data } = await axios.get(url);
-
-      Alert.alert(
-        "Nouveau client",
-        `${data.results[0].name.first} ${data.results[0].name.last}`,
-        [
-          {
-            text: "Refuser",
-            onPress: () => {
-              setScanned(false);
-            },
-          },
-          {
-            text: "Accepter",
-            onPress: () => {
-              setScanned(false);
-            },
-          },
-        ]
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    Alert.alert("Nouveau client", " ", [
+      {
+        text: "Refuser",
+        onPress: () => {
+          setScanned(false);
+        },
+      },
+      {
+        text: "Accepter",
+        onPress: () => {
+          setScanned(false);
+        },
+      },
+    ]);
   };
 
   return (

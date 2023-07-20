@@ -32,7 +32,6 @@ export default function Badge() {
             />
             <Text style={styles.textBadge}>National Parks</Text>
           </View>
-
           <View style={styles.badge}>
             <Image
               style={styles.imageBadge}
