@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import axios from "axios";
+import { axiosInstance } from "../api/axiosInstance";
 
 const ScanQRCode = ({ route, navigation }) => {
   // const navigate = useNavigation();
@@ -64,11 +64,12 @@ const ScanQRCode = ({ route, navigation }) => {
   };
 
   const addBadge = (data) => {
-    axios
-      .put("http://10.74.0.59:4000/api/users/badge/" + data)
-      .then((response) => {
-        navigation.navigate("Badge");
-      });
+    const response = axiosInstance({
+      method: "PUT",
+      url: "/users/badge/" + data,
+    }).then(() => {
+      navigation.navigate("Badge");
+    });
   };
 
   return (

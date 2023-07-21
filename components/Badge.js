@@ -15,6 +15,7 @@ import MapView, { Marker } from "react-native-maps";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
+import { BlurView } from "expo-blur";
 
 export default function Badge() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -91,75 +92,80 @@ export default function Badge() {
           </View>
         </View>
 
-        <Modal visible={modalVisible} animationType="fade" transparent={true}>
+        <Modal visible={modalVisible} animationType="slide" transparent={true}>
           {badgeSelected !== -1 && (
-            <View style={styles.modalView}>
-              <View style={styles.containerIcons}>
-                <Ionicons
-                  style={styles.iconClose}
-                  name="close-circle"
-                  onPress={() => setModalVisible(false)}
-                  color={"black"}
-                  size={45}
-                />
-              </View>
+            <BlurView intensity={15} style={{ height: "100%" }}>
+              <View style={styles.modalView}>
+                <View style={styles.containerIcons}>
+                  <Ionicons
+                    style={styles.iconClose}
+                    name="close-circle"
+                    onPress={() => setModalVisible(false)}
+                    color={"black"}
+                    size={45}
+                  />
+                </View>
 
-              <ScrollView>
-                <View>
-                  <View style={styles.containerImageModal}>
-                    <Image
-                      style={styles.imageBadgeModal}
-                      source={{ uri: badges[badgeSelected].picture }}
-                    />
-                  </View>
+                <ScrollView>
+                  <View>
+                    <View style={styles.containerImageModal}>
+                      <Image
+                        style={styles.imageBadgeModal}
+                        source={{ uri: badges[badgeSelected].picture }}
+                      />
+                    </View>
 
-                  <Text style={styles.modalTitle}>
-                    {badges[badgeSelected].name}
-                  </Text>
+                    <Text style={styles.modalTitle}>
+                      {badges[badgeSelected].name}
+                    </Text>
 
-                  <Text
-                    style={[
-                      styles.modalRank,
-                      { color: getBadgeColor(badges[badgeSelected].rank) }, // Définir la couleur du texte en fonction du rang du badge
-                    ]}
-                  >
-                    {badges[badgeSelected].rank}
-                  </Text>
+                    <Text
+                      style={[
+                        styles.modalRank,
+                        { color: getBadgeColor(badges[badgeSelected].rank) }, // Définir la couleur du texte en fonction du rang du badge
+                      ]}
+                    >
+                      {badges[badgeSelected].rank}
+                    </Text>
 
-                  <Text style={styles.modalDescription}>
-                    {badges[badgeSelected].description}
-                  </Text>
+                    <Text style={styles.modalDescription}>
+                      {badges[badgeSelected].description}
+                    </Text>
 
-                  <MapView
-                    style={{ width: "100%", height: 250, borderRadius: 8 }}
-                    minZoomLevel={10}
-                    initialRegion={{
-                      latitude: badges[badgeSelected].coordinates.latitude,
-                      longitude: badges[badgeSelected].coordinates.longitude,
-                      latitudeDelta: 5,
-                      latitudeDelta: 5,
-                    }}
-                  >
-                    <Marker
-                      coordinate={{
+                    <MapView
+                      style={{ width: "100%", height: 250, borderRadius: 8 }}
+                      minZoomLevel={10}
+                      initialRegion={{
                         latitude: badges[badgeSelected].coordinates.latitude,
                         longitude: badges[badgeSelected].coordinates.longitude,
+                        latitudeDelta: 5,
+                        latitudeDelta: 5,
                       }}
-                      title={badges[badgeSelected].name}
-                    />
-                  </MapView>
-                </View>
-                <View style={{ alignSelf: "center" }}>
-                  <TouchableOpacity
-                    style={styles.deleteButton}
-                    title="Supprimer"
-                    onPress={() => handleDeleteBadge(badges[badgeSelected]._id)}
-                  >
-                    <Text style={styles.textDeleteButton}>Supprimer</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
-            </View>
+                    >
+                      <Marker
+                        coordinate={{
+                          latitude: badges[badgeSelected].coordinates.latitude,
+                          longitude:
+                            badges[badgeSelected].coordinates.longitude,
+                        }}
+                        title={badges[badgeSelected].name}
+                      />
+                    </MapView>
+                  </View>
+                  <View style={{ alignSelf: "center" }}>
+                    <TouchableOpacity
+                      style={styles.deleteButton}
+                      title="Supprimer"
+                      onPress={() =>
+                        handleDeleteBadge(badges[badgeSelected]._id)
+                      }
+                    >
+                      <Text style={styles.textDeleteButton}>Supprimer</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ScrollView>
+              </View>
+            </BlurView>
           )}
         </Modal>
       </ScrollView>

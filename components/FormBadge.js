@@ -12,6 +12,7 @@ import {
 import SelectDropdown from "react-native-select-dropdown";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "react-native";
+import { axiosInstance } from "../api/axiosInstance";
 
 const FormBadge = () => {
   const [name, setName] = useState("");
@@ -47,12 +48,11 @@ const FormBadge = () => {
       },
     };
 
-    axios
-      .post("http://10.74.0.59:4000/api/badges", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    const response = axiosInstance({
+      method: "POST",
+      url: "/badges",
+      data: formData,
+    })
       .then((response) => {
         showConfirmationMessage(
           <View>
