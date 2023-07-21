@@ -32,9 +32,9 @@ const ScanQRCode = ({ route, navigation }) => {
 
   useEffect(() => {
     if (!permission?.granted) requestPermission();
-    return () => {
-      clearInterval(interval);
-    };
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
   useEffect(() => {

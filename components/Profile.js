@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -9,6 +10,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
   const [text, onChangeText] = useState("");
@@ -55,6 +57,13 @@ export default function Profile() {
                 value={text}
               />
 
+              <Text style={styles.textInput}>Prénom</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={text}
+              />
+
               <TextInput
                 placeholder="Prénom"
                 style={styles.input}
@@ -68,6 +77,16 @@ export default function Profile() {
                 onChangeText={handleUrlChange}
                 value={imageUri}
               />
+
+              <Pressable
+                onPress={async () => {
+                  await AsyncStorage.removeItem("auth");
+                  await AsyncStorage.removeItem("qrcode-token");
+                  navigation.navigate("Login");
+                }}
+              >
+                <Text>Se déconnecter</Text>
+              </Pressable>
             </View>
           </View>
         </ScrollView>

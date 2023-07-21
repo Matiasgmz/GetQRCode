@@ -8,18 +8,18 @@ import axios from "axios";
 export default function Maps() {
   const [badges, setBadges] = useState([]);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get("http://10.74.0.59:4000/api/badges");
-      setBadges(response.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
+  // const fetchUsers = async () => {
+  //   try {
+  //     const response = await axios.get("http://10.74.0.59:3000/users");
+  //     setUsers(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching users:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []); // Empty dependency array ensures the effect runs only once after initial render.
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []); // Empty dependency array ensures the effect runs only once after initial render.
 
   const [location, setLocation] = useState(null);
 
