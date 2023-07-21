@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import Badge from "./components/Badge";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
+import FormBadge from "./components/FormBadge";
 
 const Stack = createNativeStackNavigator();
 const MainStack = createMaterialBottomTabNavigator();
@@ -58,6 +59,17 @@ const LoggedStack = () => {
         }}
         component={Badge}
       />
+
+      <MainStack.Screen
+          name="AddBadge"
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="add-circle-outline" color={color} size={25} />
+            ),
+            tabBarLabel: "",
+          }}
+          component={FormBadge}
+        />
 
       <MainStack.Screen
         name="Profile"

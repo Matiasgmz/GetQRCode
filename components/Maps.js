@@ -6,7 +6,7 @@ import * as Location from "expo-location";
 import axios from "axios";
 
 export default function Maps() {
-  const [users, setUsers] = useState([]);
+  const [badges, setBadges] = useState([]);
 
   // const fetchUsers = async () => {
   //   try {
@@ -22,7 +22,6 @@ export default function Maps() {
   // }, []); // Empty dependency array ensures the effect runs only once after initial render.
 
   const [location, setLocation] = useState(null);
-  const [distance, setDistance] = useState(null);
 
   useEffect(() => {
     getLocationAsync();
@@ -38,32 +37,11 @@ export default function Maps() {
     }
   };
 
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Rayon de la Terre en kilomètres
-    const dLat = toRadians(lat2 - lat1);
-    const dLon = toRadians(lon2 - lon1);
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRadians(lat1)) *
-        Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    setDistance(distance);
-    return distance;
-  };
-
-  const toRadians = (degrees) => {
-    return degrees * (Math.PI / 180);
-  };
-
   return (
     <View style={{ flex: 1 }}>
       {location && (
         <MapView
+          zoomEnabled
           style={{ flex: 1 }}
           initialRegion={{
             latitude: location.latitude,
@@ -72,14 +50,14 @@ export default function Maps() {
             latitudeDelta: 0.0421,
           }}
         >
-          {users.map((user, index) => (
+          {badges.map((badge, index) => (
             <Marker
               key={index}
               coordinate={{
-                latitude: user.latitude,
-                longitude: user.longitude,
+                latitude: badge.coordinates.latitude,
+                longitude: badge.coordinates.longitude,
               }}
-              title={user.last + " " + user.first}
+              title={badge.name}
             />
           ))}
         </MapView>

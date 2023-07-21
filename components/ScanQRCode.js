@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import axios from "axios";
 
 const ScanQRCode = ({ route, navigation }) => {
   // const navigate = useNavigation();
@@ -77,6 +78,11 @@ const ScanQRCode = ({ route, navigation }) => {
     // ]);
   };
 
+  const addBadge = (data) => {
+    axios.post("http://10.74.0.59:3000/api/badges", data);
+    navigation.navigate("Badge");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <BarCodeScanner
@@ -97,7 +103,10 @@ const ScanQRCode = ({ route, navigation }) => {
           ]}
         >
           {scanned && markerBounds && (
-            <Pressable style={styles.linkMessage}>
+            <Pressable
+              style={styles.linkMessage}
+              onPress={() => addBadge(link)}
+            >
               <Text style={styles.linkText}>{link}</Text>
             </Pressable>
           )}
@@ -151,14 +160,14 @@ const styles = StyleSheet.create({
   },
   marker: {
     position: "absolute",
-    borderWidth: 2,
-    borderColor: "green",
+    borderWidth: 4,
+    borderColor: "yellow",
     borderRadius: 10,
     width: 200, // Largeur du marqueur
     height: 100, // Hauteur du marqueur
   },
   linkMessage: {
-    position: "relative",
+    position: "absolute",
     top: "105%",
     left: 0,
     right: 0,
@@ -167,6 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     width: "100%",
+    alignSelf: "flex-start",
   },
   linkText: {
     fontSize: 16,
