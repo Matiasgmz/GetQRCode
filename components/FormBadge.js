@@ -7,9 +7,11 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "react-native";
 
 const FormBadge = () => {
   const [name, setName] = useState("");
@@ -52,7 +54,17 @@ const FormBadge = () => {
         },
       })
       .then((response) => {
-        showConfirmationMessage("Badge ajouté");
+        showConfirmationMessage(
+          <View>
+            <Ionicons
+              name="checkmark-circle-outline"
+              color={"green"}
+              size={80}
+              style={{ textAlign: "center", marginBottom: 25 }}
+            />
+            <Text>Badge ajouté</Text>
+          </View>
+        );
         setName("");
         setDescription("");
         setUrl("");
@@ -61,102 +73,125 @@ const FormBadge = () => {
         setLongitude("");
       })
       .catch((error) => {
-        showConfirmationMessage("Error adding badge. Please try again.");
+        showConfirmationMessage(
+          <View>
+            <Ionicons
+              name="close-circle-outline"
+              color={"red"}
+              size={80}
+              style={{ textAlign: "center", marginBottom: 25 }}
+            />
+            <Text>Erreur lors de l'ajout du badge. Veuillez réessayer.</Text>
+          </View>
+        );
       });
   };
 
   return (
-    <ScrollView>
-      <View style={[styles.container, { marginTop: 100 }]}>
-        <TextInput
-          style={styles.input}
-          placeholder="Nom"
-          value={name}
-          onChangeText={setName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="URL"
-          value={url}
-          onChangeText={setUrl}
-        />
-
-        <View style={styles.row}>
-          <Text>Is Delete:</Text>
-          <SelectDropdown
-            data={[{ label: "False" }, { label: "True" }]}
-            defaultValueByIndex={isDelete ? 1 : 0}
-            onSelect={(selectedItem) =>
-              setIsDelete(selectedItem.label === "True")
-            }
-            buttonTextAfterSelection={(selectedItem) =>
-              selectedItem.label ? selectedItem.label : "Is Delete"
-            }
-            rowTextForSelection={(item) => item.label}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      style={{ flex: 1 }}
+    >
+      <ScrollView>
+        <View style={[styles.container, { marginTop: 100 }]}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nom"
+            value={name}
+            onChangeText={setName}
           />
-        </View>
-
-        <View style={styles.row}>
-          <Text>Rang:</Text>
-          <SelectDropdown
-            data={[
-              { label: "SILVER" },
-              { label: "GOLD" },
-              { label: "BRONZE" },
-              { label: "PLATINUM" },
-            ]}
-            defaultValue={rang}
-            onSelect={(selectedItem) => setRang(selectedItem.label)}
-            buttonTextAfterSelection={(selectedItem) =>
-              selectedItem.label ? selectedItem.label : "Rang"
-            }
-            rowTextForSelection={(item) => item.label}
+          <TextInput
+            style={styles.input}
+            placeholder="Description"
+            value={description}
+            onChangeText={setDescription}
           />
-        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Latitude"
-          value={latitude}
-          onChangeText={setLatitude}
-          keyboardType="numbers-and-punctuation"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Longitude"
-          value={longitude}
-          onChangeText={setLongitude}
-          keyboardType="numbers-and-punctuation"
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="URL"
+            value={url}
+            onChangeText={setUrl}
+          />
 
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => handleAddBadge()}
-        >
-          <Text style={styles.addButtonText}>Add Badge</Text>
-        </TouchableOpacity>
+          <Image style={styles.urlImage} source={{ uri: url }} />
 
-        {confirmationMessage ? (
-          <View style={{ flex: 1, alignSelf: "center", marginTop: 50 }}>
-            <Text style={styles.confirmationMessage}>
-              {confirmationMessage}
-            </Text>
-            <Ionicons
-              name="checkmark-circle-outline"
-              color={"green"}
-              size={80}
-              style={{ textAlign: "center", marginTop: 25 }}
+          <View style={styles.row}>
+            <Text>Is Delete:</Text>
+            <SelectDropdown
+              data={[{ label: "False" }, { label: "True" }]}
+              defaultValueByIndex={isDelete ? 1 : 0}
+              onSelect={(selectedItem) =>
+                setIsDelete(selectedItem.label === "True")
+              }
+              buttonTextAfterSelection={(selectedItem) =>
+                selectedItem.label ? selectedItem.label : "Is Delete"
+              }
+              rowTextForSelection={(item) => item.label}
             />
           </View>
-        ) : null}
-      </View>
-    </ScrollView>
+
+          <View style={styles.row}>
+            <Text>Rang:</Text>
+            <SelectDropdown
+              data={[
+                { label: "SILVER" },
+                { label: "GOLD" },
+                { label: "BRONZE" },
+                { label: "PLATINUM" },
+              ]}
+              defaultValue={rang}
+              onSelect={(selectedItem) => setRang(selectedItem.label)}
+              buttonTextAfterSelection={(selectedItem) =>
+                selectedItem.label ? selectedItem.label : "Rang"
+              }
+              rowTextForSelection={(item) => item.label}
+            />
+          </View>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Latitude"
+            value={latitude}
+            onChangeText={setLatitude}
+            keyboardType="numbers-and-punctuation"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Longitude"
+            value={longitude}
+            onChangeText={setLongitude}
+            keyboardType="numbers-and-punctuation"
+          />
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => handleAddBadge()}
+          >
+            <Text style={styles.addButtonText}>Add Badge</Text>
+          </TouchableOpacity>
+
+          {confirmationMessage ? (
+            <View
+              style={{
+                flex: 1,
+                alignSelf: "center",
+                marginTop: 50,
+                position: "absolute",
+                // top: 0,
+                backgroundColor: "white",
+                borderRadius: 12,
+                padding: 10,
+              }}
+            >
+              <Text style={styles.confirmationMessage}>
+                {confirmationMessage}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -168,7 +203,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 12,
     marginBottom: 10,
     paddingLeft: 10,
     fontWeight: "bold",
@@ -196,6 +231,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 30,
+  },
+  urlImage: {
+    borderRadius: 100,
+    width: 150,
+    height: 150,
+    alignSelf: "center",
+    margin: 15,
   },
 });
 
