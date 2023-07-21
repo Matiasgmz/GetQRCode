@@ -49,7 +49,15 @@ const RegistrationScreen = ({ navigation }) => {
         ]
       );
     } catch (err) {
-      Alert.alert("Erreur", "Blablabla");
+      Alert.alert(
+        "Oops !",
+        "Une erreur est survenue, veuillez réessayer ultérieurement. Nous nous excusons pour la gêne occasionnée.",
+        [
+          {
+            text: "J'ai compris",
+          },
+        ]
+      );
     }
   };
 

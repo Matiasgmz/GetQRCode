@@ -36,7 +36,17 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate("Main");
       setForm({ email: "", password: "" });
     } catch (err) {
-      Alert.alert("Erreur", "Blablabla");
+      console.log(err);
+
+      Alert.alert(
+        "Oops !",
+        "Une erreur est survenue, veuillez réessayer ultérieurement. Nous nous excusons pour la gêne occasionnée.",
+        [
+          {
+            text: "J'ai compris",
+          },
+        ]
+      );
     }
   };
 

@@ -10,7 +10,7 @@ import { axiosInstance } from "./api/axiosInstance";
 
 import Map from "./screens/MapScreen";
 import ScanQRCode from "./components/ScanQRCode";
-import Profile from "./components/Profile";
+import Profile from "./screens/ProfileScreen";
 import Badge from "./components/Badge";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";

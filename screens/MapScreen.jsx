@@ -25,7 +25,6 @@ const Map = () => {
         [
           {
             text: "J'ai compris",
-            onPress: () => setScanned(false),
           },
         ]
       );
