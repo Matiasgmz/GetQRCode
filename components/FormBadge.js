@@ -94,6 +94,7 @@ const FormBadge = () => {
     >
       <ScrollView>
         <View style={[styles.container, { marginTop: 100 }]}>
+          <Text style={styles.title}>Ajouter un badge</Text>
           <TextInput
             style={styles.input}
             placeholder="Nom"
@@ -114,7 +115,7 @@ const FormBadge = () => {
             onChangeText={setUrl}
           />
 
-          <Image style={styles.urlImage} source={{ uri: url }} />
+          {url ? <Image style={styles.urlImage} source={{ uri: url }} /> : ""}
 
           <View style={styles.row}>
             <Text>Visible:</Text>
@@ -169,7 +170,7 @@ const FormBadge = () => {
             style={styles.addButton}
             onPress={() => handleAddBadge()}
           >
-            <Text style={styles.addButtonText}>Add Badge</Text>
+            <Text style={styles.addButtonText}>Ajouter</Text>
           </TouchableOpacity>
 
           {confirmationMessage ? (
@@ -239,6 +240,14 @@ const styles = StyleSheet.create({
     height: 150,
     alignSelf: "center",
     margin: 15,
+  },
+  title: {
+    flex: 1,
+    fontWeight: "bold",
+    color: "black",
+    textAlign: "center",
+    fontSize: 30,
+    marginBottom: 30,
   },
 });
 

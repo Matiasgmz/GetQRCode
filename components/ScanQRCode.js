@@ -61,26 +61,14 @@ const ScanQRCode = ({ route, navigation }) => {
 
     setMarkerPosition({ x, y });
     setMarkerBounds(bounds);
-
-    // Alert.alert("Nouveau client", " ", [
-    //   {
-    //     text: "Refuser",
-    //     onPress: () => {
-    //       setScanned(false);
-    //     },
-    //   },
-    //   {
-    //     text: "Accepter",
-    //     onPress: () => {
-    //       setScanned(false);
-    //     },
-    //   },
-    // ]);
   };
 
   const addBadge = (data) => {
-    axios.post("http://10.74.0.59:3000/api/badges", data);
-    navigation.navigate("Badge");
+    axios
+      .put("http://10.74.0.59:4000/api/users/badge/" + data)
+      .then((response) => {
+        navigation.navigate("Badge");
+      });
   };
 
   return (

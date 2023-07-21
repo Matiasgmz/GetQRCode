@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useInsertionEffect, useState } from "react";
 import {
   Image,
   Modal,
@@ -14,25 +14,28 @@ import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Badge() {
-  const [badges, setBadges] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [badges, setBadges] = useState([]);
+
   const [badgeSelected, setBadgeSelected] = useState(-1);
+
+  useInsertionEffect(() => {
+    fetchUsers();
+  });
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://10.74.0.59:4000/api/badges");
-      console.log(response.data);
-      setBadges(response.data);
+      const response = await axios.get(
+        "http://10.74.0.59:4000/api/users/badges"
+      );
+      setBadges(response.data.badges);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const getBadgeColor = (rank) => {
     switch (rank) {
