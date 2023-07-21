@@ -61,15 +61,15 @@ const LoggedStack = () => {
       />
 
       <MainStack.Screen
-          name="AddBadge"
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="add-circle-outline" color={color} size={25} />
-            ),
-            tabBarLabel: "",
-          }}
-          component={FormBadge}
-        />
+        name="AddBadge"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="add-circle-outline" color={color} size={25} />
+          ),
+          tabBarLabel: "",
+        }}
+        component={FormBadge}
+      />
 
       <MainStack.Screen
         name="Profile"
@@ -126,6 +126,7 @@ const App = () => {
           <>
             <Stack.Screen name="Main" component={LoggedStack} />
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         ) : (
           <>

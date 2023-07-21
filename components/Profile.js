@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   const [text, onChangeText] = useState("");
   const [imageUri, setImageUri] = useState(
     "https://thispersondoesnotexist.com/"
