@@ -14,7 +14,7 @@ import Profile from "./screens/ProfileScreen";
 import Badge from "./components/Badge";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
-import FormBadge from "./components/FormBadge";
+import AddBadgeScreen from "./screens/AddBadgeScreen";
 
 const Stack = createNativeStackNavigator();
 const MainStack = createMaterialBottomTabNavigator();
@@ -69,7 +69,7 @@ const LoggedStack = () => {
           ),
           tabBarLabel: "",
         }}
-        component={FormBadge}
+        component={AddBadgeScreen}
       />
 
       <MainStack.Screen

@@ -110,8 +110,8 @@ export default function Profile({ navigation }) {
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
-        style={{ flex: 1 }}
+        // keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+        style={{ flex: 1, backgroundColor: "transparent" }}
       >
         <ScrollView>
           <View

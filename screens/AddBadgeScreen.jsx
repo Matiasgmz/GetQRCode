@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -8,13 +7,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
-import { Ionicons } from "@expo/vector-icons";
 import { Image } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
 
-const FormBadge = () => {
+export default function AddBadgeScreen() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
@@ -55,15 +54,11 @@ const FormBadge = () => {
     })
       .then((response) => {
         showConfirmationMessage(
-          <View>
-            <Ionicons
-              name="checkmark-circle-outline"
-              color={"green"}
-              size={80}
-              style={{ textAlign: "center", marginBottom: 25 }}
-            />
-            <Text>Badge ajouté avec succès !</Text>
-          </View>
+          Alert.alert("Parfait", "Badge ajouté avec succés", [
+            {
+              text: "Super !",
+            },
+          ])
         );
         setName("");
         setDescription("");
@@ -74,19 +69,18 @@ const FormBadge = () => {
       })
       .catch((error) => {
         showConfirmationMessage(
-          <View>
-            <Ionicons
-              name="close-circle-outline"
-              color={"red"}
-              size={80}
-              style={{ textAlign: "center", marginBottom: 25 }}
-            />
-            <Text>Erreur lors de l'ajout du badge. Veuillez réessayer.</Text>
-          </View>
+          Alert.alert(
+            "Oops !",
+            "Erreur lors de l'ajout du badge. Veuillez réessayer.",
+            [
+              {
+                text: "J'ai compris",
+              },
+            ]
+          )
         );
       });
   };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : null}
@@ -118,37 +112,45 @@ const FormBadge = () => {
           {url ? <Image style={styles.urlImage} source={{ uri: url }} /> : ""}
 
           <View style={styles.row}>
-            <Text>Visible:</Text>
-            <SelectDropdown
-              data={[{ label: "False" }, { label: "True" }]}
-              defaultValueByIndex={isDelete ? 1 : 0}
-              onSelect={(selectedItem) =>
-                setIsDelete(selectedItem.label === "True")
-              }
-              buttonTextAfterSelection={(selectedItem) =>
-                selectedItem.label ? selectedItem.label : "Is Delete"
-              }
-              rowTextForSelection={(item) => item.label}
-            />
+            <View style={{ alignItems: "flex-start" }}>
+              <Text style={{ fontWeight: "bold", marginBottom: 15 }}>
+                Visible :
+              </Text>
+              <SelectDropdown
+                data={[{ label: "False" }, { label: "True" }]}
+                defaultValueByIndex={isDelete ? 1 : 0}
+                onSelect={(selectedItem) =>
+                  setIsDelete(selectedItem.label === "True")
+                }
+                buttonTextAfterSelection={(selectedItem) =>
+                  selectedItem.label ? selectedItem.label : "Is Delete"
+                }
+                rowTextForSelection={(item) => item.label}
+              />
+            </View>
           </View>
 
           <View style={styles.row}>
-            <Text>Rang:</Text>
-            <SelectDropdown
-              defaultButtonText="Selectionnez"
-              data={[
-                { label: "SILVER" },
-                { label: "GOLD" },
-                { label: "BRONZE" },
-                { label: "PLATINUM" },
-              ]}
-              defaultValue={rang}
-              onSelect={(selectedItem) => setRang(selectedItem.label)}
-              buttonTextAfterSelection={(selectedItem) =>
-                selectedItem.label ? selectedItem.label : "Rang"
-              }
-              rowTextForSelection={(item) => item.label}
-            />
+            <View style={{ alignItems: "flex-start" }}>
+              <Text style={{ fontWeight: "bold", marginBottom: 15 }}>
+                Rang :
+              </Text>
+              <SelectDropdown
+                defaultButtonText="Selectionnez"
+                data={[
+                  { label: "SILVER" },
+                  { label: "GOLD" },
+                  { label: "BRONZE" },
+                  { label: "PLATINUM" },
+                ]}
+                defaultValue={rang}
+                onSelect={(selectedItem) => setRang(selectedItem.label)}
+                buttonTextAfterSelection={(selectedItem) =>
+                  selectedItem.label ? selectedItem.label : "Rang"
+                }
+                rowTextForSelection={(item) => item.label}
+              />
+            </View>
           </View>
 
           <TextInput
@@ -174,58 +176,46 @@ const FormBadge = () => {
           </TouchableOpacity>
 
           {confirmationMessage ? (
-            <View
-              style={{
-                flex: 1,
-                alignSelf: "center",
-                marginTop: 50,
-                position: "absolute",
-                // top: 0,
-                backgroundColor: "white",
-                borderRadius: 12,
-                padding: 10,
-              }}
-            >
-              <Text style={styles.confirmationMessage}>
-                {confirmationMessage}
-              </Text>
-            </View>
+            <Text style={styles.confirmationMessage}>
+              {confirmationMessage}
+            </Text>
           ) : null}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 10,
   },
   input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 12,
-    marginBottom: 10,
-    paddingLeft: 10,
-    fontWeight: "bold",
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderWidth: 2,
+    borderRadius: 4,
+    width: "100%",
+    fontSize: 18,
+    marginBottom: 15,
   },
   row: {
-    flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
     fontWeight: "bold",
   },
   addButton: {
-    backgroundColor: "black",
-    padding: 10,
-    borderRadius: 5,
-    fontWeight: "bold",
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    backgroundColor: "green",
     alignItems: "center",
   },
   addButtonText: {
+    textAlign: "center",
     color: "white",
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: 500,
   },
   confirmationMessage: {
     marginTop: 10,
@@ -250,5 +240,3 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 });
-
-export default FormBadge;
