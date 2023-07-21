@@ -1,6 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
   Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -9,8 +11,9 @@ import {
   View,
 } from "react-native";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   const [text, onChangeText] = React.useState();
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -50,6 +53,16 @@ export default function Profile() {
               onChangeText={onChangeText}
               value={text}
             />
+
+            <Pressable
+              onPress={async () => {
+                await AsyncStorage.removeItem("auth");
+                await AsyncStorage.removeItem("qrcode-token");
+                navigation.navigate("Login");
+              }}
+            >
+              <Text>Se déconnecter</Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
