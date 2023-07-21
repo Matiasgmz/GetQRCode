@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { axiosInstance } from "./api/axiosInstace";
 
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import Maps from "./components/Maps";
+import Map from "./screens/MapScreen";
 import ScanQRCode from "./components/ScanQRCode";
 import Profile from "./components/Profile";
 import Badge from "./components/Badge";
@@ -28,25 +29,14 @@ const LoggedStack = () => {
       screenOptions={{ headerShown: false }}
     >
       <MainStack.Screen
-        name="Maps"
+        name="Map"
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="map-outline" color={color} size={25} />
           ),
           tabBarLabel: "",
         }}
-        component={Maps}
-      />
-
-      <MainStack.Screen
-        name="Scan"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="barcode-outline" color={color} size={25} />
-          ),
-          tabBarLabel: "",
-        }}
-        component={ScanQRCode}
+        component={Map}
       />
 
       <MainStack.Screen
@@ -58,6 +48,17 @@ const LoggedStack = () => {
           tabBarLabel: "",
         }}
         component={Badge}
+      />
+
+      <MainStack.Screen
+        name="Scan"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="barcode-outline" color={color} size={25} />
+          ),
+          tabBarLabel: "",
+        }}
+        component={ScanQRCode}
       />
 
       <MainStack.Screen
@@ -87,15 +88,16 @@ const LoggedStack = () => {
 
 const App = () => {
   const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getCurrentUser = async () => {
     try {
       const token = await AsyncStorage.getItem("qrcode-token");
 
       if (token === null) {
-        const authInfos = { isAuthenticated: false, user: null };
-        await AsyncStorage.setItem("auth", JSON.stringify(authInfos));
-        return setIsLogged(false);
+        await AsyncStorage.remove("userId");
+        setIsLogged(false);
+        return setIsLoading(false);
       }
 
       const { data } = await axiosInstance({
@@ -103,18 +105,27 @@ const App = () => {
         url: "/auth/current",
       });
 
-      const authInfos = { isAuthenticated: true, user: data.user };
-      await AsyncStorage.setItem("auth", JSON.stringify(authInfos));
+      await AsyncStorage.setItem("userId", data.user._id);
       setIsLogged(true);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
       setIsLogged(false);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getCurrentUser();
   }, []);
+
+  if (isLoading)
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text}>Get QR Code</Text>
+        <Ionicons name="barcode-outline" color="black" size={50} />
+      </View>
+    );
 
   return (
     <NavigationContainer>
@@ -139,5 +150,19 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 200,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 40,
+    fontWeight: 600,
+    textTransform: "uppercase",
+    marginBottom: 24,
+  },
+});
 
 export default App;

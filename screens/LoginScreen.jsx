@@ -30,10 +30,8 @@ const LoginScreen = ({ navigation }) => {
         data: form,
       });
 
-      const auth = { isAuthenticated: true, user: data.user };
-
       await AsyncStorage.setItem("qrcode-token", data.token);
-      await AsyncStorage.setItem("auth", JSON.stringify(auth));
+      await AsyncStorage.setItem("userId", data.user._id);
 
       navigation.navigate("Main");
       setForm({ email: "", password: "" });

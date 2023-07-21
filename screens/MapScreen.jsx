@@ -1,25 +1,40 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-
 import * as Location from "expo-location";
-import axios from "axios";
 
-export default function Maps() {
+import { axiosInstance } from "../api/axiosInstace";
+
+const Map = () => {
   const [badges, setBadges] = useState([]);
 
-  // const fetchUsers = async () => {
-  //   try {
-  //     const response = await axios.get("http://10.74.0.59:3000/users");
-  //     setUsers(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //   }
-  // };
+  const getBadges = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "GET",
+        url: "/badges",
+      });
 
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []); // Empty dependency array ensures the effect runs only once after initial render.
+      setBadges(data);
+    } catch (err) {
+      console.log(err);
+
+      Alert.alert(
+        "Oops !",
+        "Une erreur est survenue, veuillez réessayer ultérieurement. Nous nous excusons pour la gêne occasionnée.",
+        [
+          {
+            text: "J'ai compris",
+            onPress: () => setScanned(false),
+          },
+        ]
+      );
+    }
+  };
+
+  useEffect(() => {
+    getBadges();
+  }, []);
 
   const [location, setLocation] = useState(null);
 
@@ -49,7 +64,16 @@ export default function Maps() {
             latitudeDelta: 0.0922,
             latitudeDelta: 0.0421,
           }}
+          minZoomLevel={5}
         >
+          <Marker
+            title="Ma position"
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+          />
+
           {badges.map((badge, index) => (
             <Marker
               key={index}
@@ -64,4 +88,6 @@ export default function Maps() {
       )}
     </View>
   );
-}
+};
+
+export default Map;

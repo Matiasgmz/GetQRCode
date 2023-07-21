@@ -80,7 +80,7 @@ export default function Profile({ navigation }) {
 
               <Pressable
                 onPress={async () => {
-                  await AsyncStorage.removeItem("auth");
+                  await AsyncStorage.removeItem("userId");
                   await AsyncStorage.removeItem("qrcode-token");
                   navigation.navigate("Login");
                 }}
