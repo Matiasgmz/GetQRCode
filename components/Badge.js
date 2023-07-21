@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
+import { Button } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export default function Badge() {
   const [badges, setBadges] = useState([]);
@@ -47,6 +49,18 @@ export default function Badge() {
     }
   };
 
+  const handleDeleteBadge = (id) => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
+
+    console.log(id);
+    axios.delete("http://10.74.0.59:4000/api/badges/" + id, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
       <ScrollView>
@@ -76,17 +90,17 @@ export default function Badge() {
         <Modal visible={modalVisible} animationType="fade" transparent={true}>
           {badgeSelected !== -1 && (
             <View style={styles.modalView}>
-              <ScrollView>
-                <View style={styles.containerIcons}>
-                  <Ionicons
-                    style={styles.iconClose}
-                    name="close-circle"
-                    onPress={() => setModalVisible(false)}
-                    color={"black"}
-                    size={45}
-                  />
-                </View>
+              <View style={styles.containerIcons}>
+                <Ionicons
+                  style={styles.iconClose}
+                  name="close-circle"
+                  onPress={() => setModalVisible(false)}
+                  color={"black"}
+                  size={45}
+                />
+              </View>
 
+              <ScrollView>
                 <View>
                   <View style={styles.containerImageModal}>
                     <Image
@@ -131,6 +145,15 @@ export default function Badge() {
                     />
                   </MapView>
                 </View>
+                <View style={{ alignSelf: "center" }}>
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    title="Supprimer"
+                    onPress={() => handleDeleteBadge(badges[badgeSelected]._id)}
+                  >
+                    <Text style={styles.textDeleteButton}>Supprimer</Text>
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             </View>
           )}
@@ -173,7 +196,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 10,
-    marginTop: 70,
+    marginTop: 100,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 10,
@@ -184,11 +207,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 5,
+    maxHeight: 650,
   },
   containerIcons: {
     width: "100%",
     alignItems: "flex-end",
     padding: 0,
+    backgroundColor: "transparent",
   },
   modalTitle: {
     textAlign: "center",
@@ -216,5 +241,17 @@ const styles = StyleSheet.create({
   iconClose: {
     fontSize: 40,
     color: "red",
+  },
+  deleteButton: {
+    borderRadius: 12,
+    width: 200,
+    backgroundColor: "red",
+    color: "white",
+    padding: 10,
+    marginTop: 10,
+  },
+  textDeleteButton: {
+    color: "white",
+    textAlign: "center",
   },
 });

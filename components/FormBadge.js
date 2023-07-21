@@ -62,7 +62,7 @@ const FormBadge = () => {
               size={80}
               style={{ textAlign: "center", marginBottom: 25 }}
             />
-            <Text>Badge ajouté</Text>
+            <Text>Badge ajouté avec succès !</Text>
           </View>
         );
         setName("");
@@ -117,7 +117,7 @@ const FormBadge = () => {
           <Image style={styles.urlImage} source={{ uri: url }} />
 
           <View style={styles.row}>
-            <Text>Is Delete:</Text>
+            <Text>Visible:</Text>
             <SelectDropdown
               data={[{ label: "False" }, { label: "True" }]}
               defaultValueByIndex={isDelete ? 1 : 0}
@@ -134,6 +134,7 @@ const FormBadge = () => {
           <View style={styles.row}>
             <Text>Rang:</Text>
             <SelectDropdown
+              defaultButtonText="Selectionnez"
               data={[
                 { label: "SILVER" },
                 { label: "GOLD" },
