@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { axiosInstance } from "../api/axiosInstace";
 
 export default function Badge() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,9 +28,10 @@ export default function Badge() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(
-        "http://10.74.0.59:4000/api/users/badges"
-      );
+      const response = await axiosInstance({
+        method: "GET",
+        url: "/users/badges",
+      });
       setBadges(response.data.badges);
     } catch (error) {
       console.error("Error fetching users:", error);
