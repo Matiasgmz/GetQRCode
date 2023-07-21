@@ -7,7 +7,7 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
-import { axiosInstance } from "../api/axiosInstace";
+import { axiosInstance } from "../api/axiosInstance";
 
 const RegistrationScreen = ({ navigation }) => {
   const [form, setForm] = useState({

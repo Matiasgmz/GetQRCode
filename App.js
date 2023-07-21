@@ -6,7 +6,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { axiosInstance } from "./api/axiosInstace";
+import { axiosInstance } from "./api/axiosInstance";
 
 import Map from "./screens/MapScreen";
 import ScanQRCode from "./components/ScanQRCode";

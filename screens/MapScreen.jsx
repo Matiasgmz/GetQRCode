@@ -3,7 +3,7 @@ import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
-import { axiosInstance } from "../api/axiosInstace";
+import { axiosInstance } from "../api/axiosInstance";
 
 const Map = () => {
   const [badges, setBadges] = useState([]);

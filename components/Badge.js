@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { axiosInstance } from "../api/axiosInstace";
+import { axiosInstance } from "../api/axiosInstance";
 
 export default function Badge() {
   const [modalVisible, setModalVisible] = useState(false);
