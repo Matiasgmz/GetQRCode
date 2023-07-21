@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -8,19 +9,60 @@ import {
   TouchableOpacity,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
+import { Ionicons } from "@expo/vector-icons";
 
 const FormBadge = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [isDelete, setIsDelete] = useState(false);
-  const [rang, setRang] = useState("Silver");
+  const [rang, setRang] = useState("SILVER");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+
+  const showConfirmationMessage = (message) => {
+    setConfirmationMessage(message);
+    setTimeout(() => {
+      setConfirmationMessage("");
+    }, 3000); // The confirmation message will disappear after 3 seconds
+  };
+
   const handleAddBadge = () => {
-    // Your logic to handle adding the badge goes here
-    // You can use the state values (name, description, url, etc.) to create the badge object
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
+
+    formData = {
+      name: name,
+      description: description,
+      picture: url,
+      isDelete: isDelete,
+      rank: rang,
+      coordinates: {
+        latitude: latitude,
+        longitude: longitude,
+      },
+    };
+
+    axios
+      .post("http://10.74.0.59:4000/api/badges", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        showConfirmationMessage("Badge ajouté");
+        setName("");
+        setDescription("");
+        setUrl("");
+        setRang("SILVER");
+        setLatitude("");
+        setLongitude("");
+      })
+      .catch((error) => {
+        showConfirmationMessage("Error adding badge. Please try again.");
+      });
   };
 
   return (
@@ -67,7 +109,7 @@ const FormBadge = () => {
               { label: "SILVER" },
               { label: "GOLD" },
               { label: "BRONZE" },
-              { label: "PLATINE" },
+              { label: "PLATINUM" },
             ]}
             defaultValue={rang}
             onSelect={(selectedItem) => setRang(selectedItem.label)}
@@ -83,19 +125,36 @@ const FormBadge = () => {
           placeholder="Latitude"
           value={latitude}
           onChangeText={setLatitude}
-          keyboardType="numeric"
+          keyboardType="numbers-and-punctuation"
         />
         <TextInput
           style={styles.input}
           placeholder="Longitude"
           value={longitude}
           onChangeText={setLongitude}
-          keyboardType="numeric"
+          keyboardType="numbers-and-punctuation"
         />
 
-        <TouchableOpacity style={styles.addButton} onPress={handleAddBadge}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => handleAddBadge()}
+        >
           <Text style={styles.addButtonText}>Add Badge</Text>
         </TouchableOpacity>
+
+        {confirmationMessage ? (
+          <View style={{ flex: 1, alignSelf: "center", marginTop: 50 }}>
+            <Text style={styles.confirmationMessage}>
+              {confirmationMessage}
+            </Text>
+            <Ionicons
+              name="checkmark-circle-outline"
+              color={"green"}
+              size={80}
+              style={{ textAlign: "center", marginTop: 25 }}
+            />
+          </View>
+        ) : null}
       </View>
     </ScrollView>
   );
@@ -130,6 +189,13 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  confirmationMessage: {
+    marginTop: 10,
+    color: "green",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 30,
   },
 });
 
