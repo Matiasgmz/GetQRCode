@@ -49,7 +49,7 @@ const ScanQRCode = ({ route, navigation }) => {
 
   if (!permission?.granted) requestPermission();
 
-  const handleBarCodeScanned = ({ type, data, bounds }) => {
+  const handleBarCodeScanned = ({ data, bounds }) => {
     if (route.name !== "Scan" || !navigation.isFocused()) return;
     setScanned(true);
     console.log(data);
@@ -63,13 +63,21 @@ const ScanQRCode = ({ route, navigation }) => {
     setMarkerBounds(bounds);
   };
 
-  const addBadge = (data) => {
-    const response = axiosInstance({
-      method: "PUT",
-      url: "/users/badge/" + data,
-    }).then(() => {
+  const addBadge = async (data) => {
+    try {
+      await axiosInstance({
+        method: "PUT",
+        url: "/users/badge/" + data,
+      });
+
       navigation.navigate("Badge");
-    });
+    } catch (err) {
+      Alert.alert("Oops !", "Vous possédez déjà ce badge.", [
+        {
+          text: "J'ai compris",
+        },
+      ]);
+    }
   };
 
   return (
