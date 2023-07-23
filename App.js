@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -15,6 +15,8 @@ import Badge from "./components/Badge";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import AddBadgeScreen from "./screens/AddBadgeScreen";
+
+import CustomText from "./components/CustomText";
 
 const Stack = createNativeStackNavigator();
 const MainStack = createMaterialBottomTabNavigator();
@@ -122,8 +124,13 @@ const App = () => {
   if (isLoading)
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Get QR Code</Text>
-        <Ionicons name="barcode-outline" color="black" size={50} />
+        <Ionicons
+          name="barcode-outline"
+          color="black"
+          size={50}
+          style={{ marginBottom: 16 }}
+        />
+        <CustomText fontWeight={500}>Chargement de vos données..</CustomText>
       </View>
     );
 

@@ -11,9 +11,13 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { axiosInstance } from "../api/axiosInstance";
 import UnknownUser from "../assets/unknown-user.jpeg";
+
 import CustomInput from "../components/CustomInput";
+import CustomText from "../components/CustomText";
+import CustomButton from "../components/CustomButton";
 
 export default function Profile({ navigation }) {
   const [form, setForm] = useState({
@@ -106,165 +110,124 @@ export default function Profile({ navigation }) {
     return focusHandler;
   }, [navigation]);
 
+  if (!user) return;
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : null}
-        // keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         style={{ flex: 1, backgroundColor: "transparent" }}
       >
-        <ScrollView>
-          <View
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            alignSelf: "center",
+            marginTop: 50,
+            width: "100%",
+          }}
+        >
+          <Image
+            style={styles.profileImage}
+            source={user.picture ? { uri: user.picture } : UnknownUser}
+          />
+
+          <CustomText
+            fontSize={20}
+            fontWeight={700}
+            textAlign="center"
             style={{
-              flex: 1,
-              flexDirection: "column",
-              alignSelf: "center",
-              marginTop: 50,
-              width: "100%",
+              marginTop: 16,
             }}
           >
-            <Image
-              style={styles.profileImage}
-              source={user?.picture ? { uri: user.picture } : UnknownUser}
-            />
+            {user.username}
+          </CustomText>
 
-            <Text
-              style={{
-                ...styles.text,
-                marginTop: 16,
-                marginBottom: 4,
-                fontSize: 20,
-                fontWeight: 700,
+          <CustomText
+            color="gray"
+            fontWeight={500}
+            textAlign="center"
+            style={{ marginVertical: 4 }}
+          >
+            {user.email}
+          </CustomText>
+
+          <CustomText color="gray" fontWeight={500} textAlign="center">
+            {user.badges && user.badges.length > 1
+              ? `${user.badges.length} badges`
+              : `${user.badges.length} badge`}
+          </CustomText>
+
+          <ScrollView
+            contentContainerStyle={{
+              paddingHorizontal: 10,
+              paddingBottom: 104,
+            }}
+            style={{ flex: 1, marginTop: 24 }}
+          >
+            <CustomButton
+              color={isSettingsOpen ? "gray" : "#3e2465"}
+              onPress={() =>
+                setIsSettingsOpen((isSettingsOpen) => !isSettingsOpen)
+              }
+              style={{ marginBottom: 8 }}
+            >
+              {isSettingsOpen ? "Fermer" : "Modifier mon profil"}
+            </CustomButton>
+
+            {isSettingsOpen && (
+              <>
+                <CustomInput
+                  placeholder="Url"
+                  value={form.picture ? form.picture : ""}
+                  onChangeText={(value) => handleChange("picture", value)}
+                  style={{ marginBottom: 16 }}
+                />
+
+                <CustomInput
+                  placeholder="Pseudo"
+                  value={form.username}
+                  onChangeText={(value) => handleChange("username", value)}
+                  style={{ marginBottom: 16 }}
+                />
+
+                <CustomInput
+                  placeholder="Email"
+                  value={form.email}
+                  onChangeText={(value) => handleChange("email", value)}
+                  style={{ marginBottom: 16 }}
+                />
+
+                <CustomButton
+                  color="#3e2465"
+                  style={{ marginBottom: 16 }}
+                  onPress={updateUser}
+                >
+                  Valider les changements
+                </CustomButton>
+
+                <View style={styles.divider} />
+              </>
+            )}
+
+            {user.roles.includes("ADMIN") && (
+              <CustomButton color="black" style={{ marginBottom: 8 }}>
+                Dashboard
+              </CustomButton>
+            )}
+
+            <CustomButton
+              color="red"
+              onPress={async () => {
+                await AsyncStorage.removeItem("userId");
+                await AsyncStorage.removeItem("qrcode-token");
+                navigation.navigate("Login");
               }}
             >
-              {user?.username}
-            </Text>
-
-            <Text
-              style={{
-                ...styles.text,
-                color: "gray",
-                textAlign: "center",
-                fontWeight: 500,
-              }}
-            >
-              {user?.email}
-            </Text>
-
-            <View style={{ flex: 1, width: "auto", marginTop: 25, padding: 5 }}>
-              <Pressable
-                style={{
-                  ...styles.btn,
-                  backgroundColor: isSettingsOpen ? "gray" : "#3e2465",
-                  marginBottom: 8,
-                }}
-                onPress={() =>
-                  setIsSettingsOpen((isSettingsOpen) => !isSettingsOpen)
-                }
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: 500,
-                  }}
-                >
-                  {isSettingsOpen ? "Fermer" : "Modifier mon profil"}
-                </Text>
-              </Pressable>
-
-              {isSettingsOpen && (
-                <>
-                  <CustomInput
-                    placeholder="Url"
-                    value={form.picture ? form.picture : ""}
-                    onChangeText={(value) => handleChange("picture", value)}
-                    style={{ marginBottom: 16 }}
-                  />
-
-                  <CustomInput
-                    placeholder="Pseudo"
-                    value={form.username}
-                    onChangeText={(value) => handleChange("username", value)}
-                    style={{ marginBottom: 16 }}
-                  />
-
-                  <CustomInput
-                    placeholder="Email"
-                    value={form.email}
-                    onChangeText={(value) => handleChange("email", value)}
-                    style={{ marginBottom: 16 }}
-                  />
-
-                  <Pressable
-                    style={{
-                      ...styles.btn,
-                      backgroundColor: "#3e2465",
-                      marginBottom: 16,
-                    }}
-                    onPress={updateUser}
-                  >
-                    <Text
-                      style={{
-                        textAlign: "center",
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: 500,
-                      }}
-                    >
-                      Valider les changements
-                    </Text>
-                  </Pressable>
-
-                  <View style={styles.divider} />
-                </>
-              )}
-
-              {user?.roles.includes("ADMIN") && (
-                <Pressable
-                  style={{
-                    ...styles.btn,
-                    backgroundColor: "black",
-                    marginBottom: 8,
-                  }}
-                  onPress={async () => {}}
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Dashboard
-                  </Text>
-                </Pressable>
-              )}
-
-              <Pressable
-                style={{ ...styles.btn, backgroundColor: "red" }}
-                onPress={async () => {
-                  await AsyncStorage.removeItem("userId");
-                  await AsyncStorage.removeItem("qrcode-token");
-                  navigation.navigate("Login");
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: 500,
-                  }}
-                >
-                  Se déconnecter
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-        </ScrollView>
+              Se déconnecter
+            </CustomButton>
+          </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -276,28 +239,6 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     alignSelf: "center",
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 12,
-    borderColor: "rgba(0, 0, 0, 0.4)",
-  },
-  text: {
-    textAlign: "center",
-  },
-  textInput: {
-    fontSize: 15,
-    fontWeight: "bold",
-    paddingLeft: 15,
-  },
-  btn: {
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
   },
   divider: {
     height: 2,

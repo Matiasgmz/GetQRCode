@@ -1,33 +1,34 @@
-import { Text } from "react-native";
-import styled from "styled-components";
-
-const TemplateText = styled(Text)`
-  ${({ fontSize, fontWeight, color, textAlign }) => `
-    font-size: ${fontSize}px;
-    font-weight: ${fontWeight};
-    color: ${color};
-    text-align: ${textAlign};
-  `}
-`;
+import { View, Text, StyleSheet } from "react-native";
 
 const CustomText = ({
   fontSize = 14,
   fontWeight = 400,
-  color = "#FFFFFF",
+  color = "black",
   textAlign = "left",
   children,
   style,
 }) => {
+  const styles = StyleSheet.create({
+    text: {
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      textAlign: textAlign,
+    },
+  });
+
   return (
-    <TemplateText
-      fontSize={fontSize}
-      fontWeight={fontWeight}
-      color={color}
-      textAlign={textAlign}
-      style={style}
-    >
-      {children}
-    </TemplateText>
+    <View style={style}>
+      <Text
+        fontSize={fontSize}
+        fontWeight={fontWeight}
+        color={color}
+        textAlign={textAlign}
+        style={styles.text}
+      >
+        {children}
+      </Text>
+    </View>
   );
 };
 

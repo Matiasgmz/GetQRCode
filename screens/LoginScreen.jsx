@@ -1,14 +1,11 @@
 import { useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  TextInput,
-  Pressable,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, Pressable, Alert, StyleSheet } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import CustomText from "../components/CustomText";
+import CustomInput from "../components/CustomInput";
+import CustomButton from "../components/CustomButton";
 
 const LoginScreen = ({ navigation }) => {
   const [form, setForm] = useState({
@@ -52,34 +49,34 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Connexion</Text>
+      <CustomText fontSize={40} textAlign="center">
+        Connexion
+      </CustomText>
 
-      <TextInput
-        style={{ ...styles.input, marginTop: 40 }}
+      <CustomInput
+        style={{ marginTop: 40 }}
         placeholder="Adresse mail"
         value={form.email}
         onChangeText={(value) => handleChange("email", value)}
       />
 
-      <TextInput
-        style={{ ...styles.input, marginTop: 16, marginBottom: 24 }}
-        secureTextEntry
+      <CustomInput
+        style={{ marginTop: 16, marginBottom: 24 }}
+        hiddenText={true}
         placeholder="Mot de passe"
         value={form.password}
         onChangeText={(value) => handleChange("password", value)}
       />
 
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Se connecter</Text>
-      </Pressable>
+      <CustomButton onPress={handleLogin}>Se connecter</CustomButton>
 
       <Pressable
         style={styles.registerButton}
         onPress={() => navigation.navigate("Registration")}
       >
-        <Text style={styles.registerButtonText}>
+        <CustomText fontSize={16} fontWeight={500} textAlign="center">
           Vous n'êtes pas inscrit ? Cliquez-ici !
-        </Text>
+        </CustomText>
       </Pressable>
     </SafeAreaView>
   );
@@ -89,39 +86,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 100,
-  },
-  title: {
-    fontSize: 40,
-    textAlign: "center",
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
     marginHorizontal: 10,
-    paddingLeft: 10,
-    fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "#3e2465",
-    padding: 12,
-    borderRadius: 8,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: 600,
-    textAlign: "center",
-    color: "white",
   },
   registerButton: {
-    marginTop: 24,
-    padding: 8,
-  },
-  registerButtonText: {
-    textAlign: "center",
-    fontSize: 16,
+    marginTop: 8,
+    padding: 16,
   },
 });
 
