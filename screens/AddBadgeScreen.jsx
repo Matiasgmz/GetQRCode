@@ -87,7 +87,7 @@ const AddBadgeScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : null}
       style={{ flex: 1, marginHorizontal: 10 }}
     >
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
         <View style={[styles.container, { marginTop: 100 }]}>
           <Text style={styles.title}>Ajouter un badge</Text>
           <CustomInput placeholder="Nom" value={name} onChangeText={setName} />
