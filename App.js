@@ -99,7 +99,7 @@ const LoggedStack = () => {
         component={ScanQRCode}
       />
 
-      <MainStack.Screen
+      {/* <MainStack.Screen
         name="AddBadge"
         options={{
           tabBarIcon: ({ color }) => (
@@ -108,7 +108,7 @@ const LoggedStack = () => {
           tabBarLabel: "",
         }}
         component={AddBadgeScreen}
-      />
+      /> */}
 
       <MainStack.Screen
         name="Profile"
@@ -179,8 +179,11 @@ const App = () => {
         {isLogged ? (
           <>
             <Stack.Screen name="Main" component={LoggedStack} />
+
             <Stack.Screen name="Dashboard" component={AdminStack} />
             <Stack.Screen name="UpdateBadge" component={ModifyBadge} />
+            <MainStack.Screen name="AddBadge" component={AddBadgeScreen} />
+
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>

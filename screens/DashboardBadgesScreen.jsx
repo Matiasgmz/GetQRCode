@@ -12,6 +12,7 @@ import {
 import { axiosInstance } from "../api/axiosInstance";
 
 import CustomText from "../components/CustomText";
+import CustomButton from "../components/CustomButton";
 
 const DashboardBadgesScreen = ({ navigation }) => {
   const [badges, setBadges] = useState([]);
@@ -45,7 +46,9 @@ const DashboardBadgesScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{ flex: 1, marginHorizontal: 10, position: "relative" }}
+    >
       <CustomText
         fontSize={24}
         fontWeight={600}
@@ -85,6 +88,13 @@ const DashboardBadgesScreen = ({ navigation }) => {
           </Pressable>
         ))}
       </ScrollView>
+
+      <CustomButton
+        style={{ position: "absolute", bottom: 24, width: "100%" }}
+        onPress={() => navigation.navigate("AddBadge")}
+      >
+        Créer un badge
+      </CustomButton>
     </SafeAreaView>
   );
 };

@@ -5,6 +5,7 @@ const CustomInput = ({
   hiddenText = false,
   onChangeText,
   value,
+  keyboardType,
   style,
 }) => {
   return (
@@ -14,6 +15,7 @@ const CustomInput = ({
         placeholderTextColor="gray"
         secureTextEntry={hiddenText}
         onChangeText={onChangeText}
+        keyboardType={keyboardType}
         value={value}
         style={styles.input}
       />

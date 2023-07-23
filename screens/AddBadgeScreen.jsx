@@ -13,7 +13,10 @@ import SelectDropdown from "react-native-select-dropdown";
 import { Image } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
 
-export default function AddBadgeScreen() {
+import CustomInput from "../components/CustomInput";
+import CustomButton from "../components/CustomButton";
+
+const AddBadgeScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
@@ -32,9 +35,6 @@ export default function AddBadgeScreen() {
   };
 
   const handleAddBadge = () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
-
     formData = {
       name: name,
       description: description,
@@ -47,12 +47,12 @@ export default function AddBadgeScreen() {
       },
     };
 
-    const response = axiosInstance({
+    axiosInstance({
       method: "POST",
       url: "/badges",
       data: formData,
     })
-      .then((response) => {
+      .then(() => {
         showConfirmationMessage(
           Alert.alert("Parfait", "Badge ajouté avec succés", [
             {
@@ -81,32 +81,29 @@ export default function AddBadgeScreen() {
         );
       });
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : null}
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginHorizontal: 10 }}
     >
       <ScrollView>
         <View style={[styles.container, { marginTop: 100 }]}>
           <Text style={styles.title}>Ajouter un badge</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Nom"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextInput
-            style={styles.input}
+          <CustomInput placeholder="Nom" value={name} onChangeText={setName} />
+
+          <CustomInput
             placeholder="Description"
             value={description}
             onChangeText={setDescription}
+            style={{ marginVertical: 12 }}
           />
 
-          <TextInput
-            style={styles.input}
+          <CustomInput
             placeholder="URL"
             value={url}
             onChangeText={setUrl}
+            style={{ marginBottom: url ? 0 : 12 }}
           />
 
           {url ? <Image style={styles.urlImage} source={{ uri: url }} /> : ""}
@@ -153,27 +150,20 @@ export default function AddBadgeScreen() {
             </View>
           </View>
 
-          <TextInput
-            style={styles.input}
+          <CustomInput
             placeholder="Latitude"
             value={latitude}
             onChangeText={setLatitude}
             keyboardType="numbers-and-punctuation"
           />
-          <TextInput
-            style={styles.input}
+
+          <CustomInput
             placeholder="Longitude"
             value={longitude}
             onChangeText={setLongitude}
             keyboardType="numbers-and-punctuation"
+            style={{ marginTop: 12 }}
           />
-
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => handleAddBadge()}
-          >
-            <Text style={styles.addButtonText}>Ajouter</Text>
-          </TouchableOpacity>
 
           {confirmationMessage ? (
             <Text style={styles.confirmationMessage}>
@@ -182,40 +172,34 @@ export default function AddBadgeScreen() {
           ) : null}
         </View>
       </ScrollView>
+
+      <CustomButton
+        color="gray"
+        onPress={() => navigation.goBack()}
+        style={{ position: "absolute", bottom: 96, width: "100%" }}
+      >
+        Annuler
+      </CustomButton>
+
+      <CustomButton
+        color="green"
+        onPress={handleAddBadge}
+        style={{ position: "absolute", bottom: 32, width: "100%" }}
+      >
+        Ajouter
+      </CustomButton>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
   },
-  input: {
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderWidth: 2,
-    borderRadius: 4,
-    width: "100%",
-    fontSize: 18,
-    marginBottom: 15,
-  },
   row: {
     alignItems: "center",
     marginBottom: 10,
     fontWeight: "bold",
-  },
-  addButton: {
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    backgroundColor: "green",
-    alignItems: "center",
-  },
-  addButtonText: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 16,
-    fontWeight: 500,
   },
   confirmationMessage: {
     marginTop: 10,
@@ -240,3 +224,5 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 });
+
+export default AddBadgeScreen;
