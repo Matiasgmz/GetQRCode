@@ -73,7 +73,7 @@ export default function ModifyBadge({ route, navigation }) {
   const deleteBadge = async () => {
     try {
       await axiosInstance({
-        method: "PUT",
+        method: "DELETE",
         url: `/badges/${route.params.data._id}`,
       });
 
