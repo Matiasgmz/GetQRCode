@@ -15,6 +15,7 @@ import Badge from "./components/Badge";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import AddBadgeScreen from "./screens/AddBadgeScreen";
+import ModifyBadge from "./screens/ModifyBadge";
 
 const Stack = createNativeStackNavigator();
 const MainStack = createMaterialBottomTabNavigator();
@@ -146,6 +147,10 @@ const App = () => {
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         )}
+
+        <>
+          <Stack.Screen name="Modifier" component={ModifyBadge} />
+        </>
       </Stack.Navigator>
     </NavigationContainer>
   );
