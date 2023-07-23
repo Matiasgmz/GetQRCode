@@ -29,7 +29,7 @@ const AdminStack = () => {
       initialRouteName="Index"
       activeColor="black"
       inactiveColor="#3e2465"
-      barStyle={{ backgroundColor: "white", height: 80 }}
+      barStyle={{ display: "none" }}
       screenOptions={{ headerShown: false }}
     >
       <MainStack.Screen
@@ -43,7 +43,7 @@ const AdminStack = () => {
         component={DashboardBadgesScreen}
       />
 
-      <MainStack.Screen
+      {/* <MainStack.Screen
         name="DashUsers"
         options={{
           tabBarIcon: ({ color }) => (
@@ -52,7 +52,7 @@ const AdminStack = () => {
           tabBarLabel: "",
         }}
         component={Profile}
-      />
+      /> */}
     </MainStack.Navigator>
   );
 };
@@ -98,17 +98,6 @@ const LoggedStack = () => {
         }}
         component={ScanQRCode}
       />
-
-      {/* <MainStack.Screen
-        name="AddBadge"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="add-circle-outline" color={color} size={25} />
-          ),
-          tabBarLabel: "",
-        }}
-        component={AddBadgeScreen}
-      /> */}
 
       <MainStack.Screen
         name="Profile"

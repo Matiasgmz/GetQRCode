@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
-  View,
   Pressable,
   Image,
   Alert,
@@ -90,7 +89,7 @@ const DashboardBadgesScreen = ({ navigation }) => {
       </ScrollView>
 
       <CustomButton
-        style={{ position: "absolute", bottom: 24, width: "100%" }}
+        style={{ position: "absolute", bottom: 32, width: "100%" }}
         onPress={() => navigation.navigate("AddBadge")}
       >
         Créer un badge
