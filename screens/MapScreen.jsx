@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 
 import { axiosInstance } from "../api/axiosInstance";
 
-const Map = () => {
+const Map = ({ navigation }) => {
   const [badges, setBadges] = useState([]);
 
   const getBadges = async () => {
@@ -32,8 +32,11 @@ const Map = () => {
   };
 
   useEffect(() => {
-    getBadges();
-  }, []);
+    const focusHandler = navigation.addListener("focus", () => {
+      getBadges();
+    });
+    return focusHandler;
+  }, [navigation]);
 
   const [location, setLocation] = useState(null);
 

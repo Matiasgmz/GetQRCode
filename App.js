@@ -11,7 +11,7 @@ import { axiosInstance } from "./api/axiosInstance";
 import Map from "./screens/MapScreen";
 import ScanQRCode from "./components/ScanQRCode";
 import Profile from "./screens/ProfileScreen";
-import Badge from "./components/Badge";
+import BadgeScreen from "./screens/BadgeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import AddBadgeScreen from "./screens/AddBadgeScreen";
@@ -49,7 +49,7 @@ const LoggedStack = () => {
           ),
           tabBarLabel: "",
         }}
-        component={Badge}
+        component={BadgeScreen}
       />
 
       <MainStack.Screen

@@ -12,28 +12,34 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
-import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
 import { BlurView } from "expo-blur";
 
-export default function Badge() {
+import CustomText from "../components/CustomText";
+
+const BadgeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [badges, setBadges] = useState([]);
 
   const [badgeSelected, setBadgeSelected] = useState(-1);
 
-  useInsertionEffect(() => {
-    fetchUsers();
-  });
+  useEffect(() => {
+    const focusHandler = navigation.addListener("focus", () => {
+      getUserBadges();
+      setModalVisible(false);
+    });
+    return focusHandler;
+  }, [navigation]);
 
-  const fetchUsers = async () => {
+  const getUserBadges = async () => {
     try {
-      const response = await axiosInstance({
+      const { data } = await axiosInstance({
         method: "GET",
         url: "/users/badges",
       });
-      setBadges(response.data.badges);
+
+      setBadges(data.badges);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -54,42 +60,63 @@ export default function Badge() {
     }
   };
 
-  const handleDeleteBadge = (id) => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
+  // const handleDeleteBadge = (id) => {
+  //   const token =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
 
-    console.log(id);
-    axios.delete("http://10.74.0.59:4000/api/badges/" + id, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  };
+  //   console.log(id);
+  //   axios.delete("http://10.74.0.59:4000/api/badges/" + id, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  // };
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.row}>
-            {badges.map((badge, index) => (
-              <Pressable
-                key={index}
-                onPress={() => {
-                  setBadgeSelected(index);
-                  setModalVisible(true);
-                }}
-                style={styles.badge}
-              >
-                <Image
-                  style={styles.imageBadge}
-                  source={{
-                    uri: badge.picture,
+          <CustomText
+            fontSize={24}
+            fontWeight={600}
+            textAlign="center"
+            style={{ marginTop: 24 }}
+          >
+            Mes badges
+          </CustomText>
+
+          {badges && badges.length > 0 ? (
+            <View style={styles.row}>
+              {badges.map((badge, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => {
+                    setBadgeSelected(index);
+                    setModalVisible(true);
                   }}
-                />
-                <Text style={styles.textBadge}>{badge.name}</Text>
-              </Pressable>
-            ))}
-          </View>
+                  style={styles.badge}
+                >
+                  <Image
+                    style={styles.imageBadge}
+                    source={{
+                      uri: badge.picture,
+                    }}
+                  />
+                  <Text style={styles.textBadge}>{badge.name}</Text>
+                </Pressable>
+              ))}
+            </View>
+          ) : (
+            <CustomText
+              fontSize={18}
+              fontWeight={500}
+              color="gray"
+              textAlign="center"
+              style={{ marginTop: 32 }}
+            >
+              Vous n'avez aucun badge
+            </CustomText>
+          )}
         </View>
 
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
@@ -171,7 +198,7 @@ export default function Badge() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -265,3 +292,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+export default BadgeScreen;
