@@ -62,7 +62,7 @@ const DashboardBadgesScreen = ({ navigation }) => {
           flexWrap: "wrap",
           flexDirection: "row",
           justifyContent: "space-around",
-          paddingBottom: 104,
+          paddingBottom: 124,
         }}
       >
         {badges.map((badge, index) => (
