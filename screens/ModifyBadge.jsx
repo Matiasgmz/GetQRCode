@@ -9,6 +9,7 @@ import { Pressable } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Alert } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
+import { KeyboardAvoidingView } from "react-native";
 
 export default function ModifyBadge({ route, navigation }) {
   const [form, setForm] = useState({
@@ -40,13 +41,12 @@ export default function ModifyBadge({ route, navigation }) {
   const handleChange = (index, value) => {
     setForm({ ...form, [index]: value });
   };
-  console.log(route.params.data._id);
 
   const updateBadge = async () => {
     try {
       const response = await axiosInstance({
         method: "PUT",
-        url: `/badge/${route.params.data._id}`,
+        url: `/badges/${route.params.data._id}`,
         data: form,
       });
 
@@ -55,6 +55,7 @@ export default function ModifyBadge({ route, navigation }) {
           text: "J'ai compris",
         },
       ]);
+      navigation.navigate("Badge");
     } catch (err) {
       Alert.alert(
         "Oops !",
@@ -70,87 +71,92 @@ export default function ModifyBadge({ route, navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, margin: 10 }}>
-      <ScrollView>
-        <View style={{ marginTop: 50 }}>
-          <Text style={styles.title}>Modifier</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
+        <ScrollView>
+          <View style={{ marginTop: 50 }}>
+            <Text style={styles.title}>Modifier</Text>
 
-          <CustomInput
-            placeholder={"Nom"}
-            value={form.name}
-            onChangeText={(value) => {
-              handleChange("name", value);
-            }}
-            style={{ marginBottom: 16 }}
-          />
-
-          <CustomInput
-            placeholder={"Image"}
-            value={form.picture}
-            onChangeText={(value) => {
-              handleChange("picture", value);
-            }}
-            style={{ marginBottom: 16 }}
-          />
-
-          <TextInput
-            placeholder={"Description"}
-            value={form.description}
-            onChangeText={(value) => {
-              handleChange("description", value);
-            }}
-            style={{
-              marginBottom: 16,
-              paddingVertical: 12,
-              paddingHorizontal: 24,
-              borderWidth: 2,
-              borderRadius: 4,
-              width: "100%",
-              fontSize: 18,
-            }}
-            multiline
-          />
-
-          <CustomInput
-            placeholder={"Longitude"}
-            value={form.coordinates.longitude.toString()}
-            onChangeText={(value) => {
-              handleChange("longitude", value);
-            }}
-            style={{ marginBottom: 16 }}
-            keyboardType="numbers-and-punctuation"
-          />
-
-          <CustomInput
-            placeholder={"Latitude"}
-            value={form.coordinates.latitude.toString()}
-            onChangeText={(value) => {
-              handleChange("latitude", value);
-            }}
-            style={{ marginBottom: 16 }}
-            keyboardType="numbers-and-punctuation"
-          />
-
-          <Pressable
-            style={{
-              ...styles.btn,
-              backgroundColor: "#3e2465",
-              marginBottom: 16,
-            }}
-            onPress={updateBadge}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: "white",
-                fontSize: 16,
-                fontWeight: 500,
+            <CustomInput
+              placeholder={"Nom"}
+              value={form.name}
+              onChangeText={(value) => {
+                handleChange("name", value);
               }}
+              style={{ marginBottom: 16 }}
+            />
+
+            <CustomInput
+              placeholder={"Image"}
+              value={form.picture}
+              onChangeText={(value) => {
+                handleChange("picture", value);
+              }}
+              style={{ marginBottom: 16 }}
+            />
+
+            <TextInput
+              placeholder={"Description"}
+              value={form.description}
+              onChangeText={(value) => {
+                handleChange("description", value);
+              }}
+              style={{
+                marginBottom: 16,
+                paddingVertical: 12,
+                paddingHorizontal: 24,
+                borderWidth: 2,
+                borderRadius: 4,
+                width: "100%",
+                fontSize: 18,
+              }}
+              multiline
+            />
+
+            <CustomInput
+              placeholder={"Longitude"}
+              value={form.coordinates.longitude.toString()}
+              onChangeText={(value) => {
+                handleChange("coordinates{longitude}", value);
+              }}
+              style={{ marginBottom: 16 }}
+              keyboardType="numbers-and-punctuation"
+            />
+
+            <CustomInput
+              placeholder={"Latitude"}
+              value={form.coordinates.latitude.toString()}
+              onChangeText={(value) => {
+                handleChange("latitude", value);
+              }}
+              style={{ marginBottom: 16 }}
+              keyboardType="numbers-and-punctuation"
+            />
+
+            <Pressable
+              style={{
+                ...styles.btn,
+                backgroundColor: "#3e2465",
+                marginBottom: 16,
+              }}
+              onPress={updateBadge}
             >
-              Valider les changements
-            </Text>
-          </Pressable>
-        </View>
-      </ScrollView>
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Valider les changements
+              </Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
