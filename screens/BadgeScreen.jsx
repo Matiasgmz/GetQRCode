@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useInsertionEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Modal,
@@ -182,29 +181,7 @@ const BadgeScreen = ({ navigation }) => {
                       flexDirection: "row",
                       justifyContent: "space-around",
                     }}
-                  >
-                    <TouchableOpacity
-                      style={styles.modifyButton}
-                      onPress={() => {
-                        navigation.navigate("Modifier", {
-                          data: badges[badgeSelected],
-                        }),
-                          setModalVisible(false);
-                      }}
-                    >
-                      <Text style={styles.textModifyButton}>Modifier</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={styles.deleteButton}
-                      title="Supprimer"
-                      onPress={() =>
-                        handleDeleteBadge(badges[badgeSelected]._id)
-                      }
-                    >
-                      <Text style={styles.textDeleteButton}>Supprimer</Text>
-                    </TouchableOpacity>
-                  </View>
+                  ></View>
                 </ScrollView>
               </View>
             </BlurView>
@@ -293,30 +270,6 @@ const styles = StyleSheet.create({
   iconClose: {
     fontSize: 40,
     color: "red",
-  },
-  deleteButton: {
-    borderRadius: 12,
-    width: 150,
-    backgroundColor: "red",
-    color: "white",
-    padding: 10,
-    marginTop: 10,
-  },
-  textDeleteButton: {
-    color: "white",
-    textAlign: "center",
-  },
-  textModifyButton: {
-    color: "white",
-    textAlign: "center",
-  },
-  modifyButton: {
-    borderRadius: 12,
-    width: 150,
-    backgroundColor: "green",
-    color: "white",
-    padding: 10,
-    marginTop: 10,
   },
 });
 

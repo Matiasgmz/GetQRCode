@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import {
   Image,
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
   Alert,
   KeyboardAvoidingView,
@@ -19,7 +17,7 @@ import CustomInput from "../components/CustomInput";
 import CustomText from "../components/CustomText";
 import CustomButton from "../components/CustomButton";
 
-export default function Profile({ navigation }) {
+const ProfileScreen = ({ navigation }) => {
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -211,7 +209,11 @@ export default function Profile({ navigation }) {
             )}
 
             {user.roles.includes("ADMIN") && (
-              <CustomButton color="black" style={{ marginBottom: 8 }}>
+              <CustomButton
+                color="black"
+                style={{ marginBottom: 8 }}
+                onPress={() => navigation.navigate("Dashboard")}
+              >
                 Dashboard
               </CustomButton>
             )}
@@ -231,7 +233,7 @@ export default function Profile({ navigation }) {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   profileImage: {
@@ -247,3 +249,5 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
 });
+
+export default ProfileScreen;

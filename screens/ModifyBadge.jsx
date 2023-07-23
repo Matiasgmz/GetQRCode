@@ -1,4 +1,4 @@
-import React, { useEffect, useInsertionEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 import CustomInput from "../components/CustomInput";
@@ -10,6 +10,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Alert } from "react-native";
 import { axiosInstance } from "../api/axiosInstance";
 import { KeyboardAvoidingView } from "react-native";
+import CustomButton from "../components/CustomButton";
 
 export default function ModifyBadge({ route, navigation }) {
   const [form, setForm] = useState({
@@ -44,7 +45,7 @@ export default function ModifyBadge({ route, navigation }) {
 
   const updateBadge = async () => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         method: "PUT",
         url: `/badges/${route.params.data._id}`,
         data: form,
@@ -53,9 +54,64 @@ export default function ModifyBadge({ route, navigation }) {
       Alert.alert("Modifications", "Badge modifié !", [
         {
           text: "J'ai compris",
+          onPress: () => navigation.goBack(),
         },
       ]);
-      navigation.navigate("Badge");
+    } catch (err) {
+      Alert.alert(
+        "Oops !",
+        "Une erreur est survenue, veuillez réessayer ultérieurement. Nous nous excusons pour la gêne occasionnée.",
+        [
+          {
+            text: "J'ai compris",
+          },
+        ]
+      );
+    }
+  };
+
+  const deleteBadge = async () => {
+    try {
+      await axiosInstance({
+        method: "PUT",
+        url: `/badges/${route.params.data._id}`,
+      });
+
+      Alert.alert("Suppression", "Badge supprimé !", [
+        {
+          text: "J'ai compris",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } catch (err) {
+      Alert.alert(
+        "Oops !",
+        "Une erreur est survenue, veuillez réessayer ultérieurement. Nous nous excusons pour la gêne occasionnée.",
+        [
+          {
+            text: "J'ai compris",
+          },
+        ]
+      );
+    }
+  };
+
+  const activateBadge = async () => {
+    try {
+      await axiosInstance({
+        method: "PUT",
+        url: `/badges/${route.params.data._id}`,
+        data: {
+          isDelete: false,
+        },
+      });
+
+      Alert.alert("Modifications", "Badge activé !", [
+        {
+          text: "J'ai compris",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     } catch (err) {
       Alert.alert(
         "Oops !",
@@ -70,7 +126,7 @@ export default function ModifyBadge({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, margin: 10 }}>
+    <SafeAreaView style={{ flex: 1, margin: 10, position: "relative" }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : null}
         style={{ flex: 1 }}
@@ -134,29 +190,43 @@ export default function ModifyBadge({ route, navigation }) {
               style={{ marginBottom: 16 }}
               keyboardType="numbers-and-punctuation"
             />
-
-            <Pressable
-              style={{
-                ...styles.btn,
-                backgroundColor: "#3e2465",
-                marginBottom: 16,
-              }}
-              onPress={updateBadge}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Valider les changements
-              </Text>
-            </Pressable>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <CustomButton
+        color="gray"
+        onPress={() => navigation.goBack()}
+        style={{
+          position: "absolute",
+          bottom: 152,
+          width: "100%",
+        }}
+      >
+        Annuler
+      </CustomButton>
+      <CustomButton
+        color="#3e2465"
+        onPress={updateBadge}
+        style={{
+          position: "absolute",
+          bottom: 88,
+          width: "100%",
+        }}
+      >
+        Valider les changements
+      </CustomButton>
+      <CustomButton
+        color={route.params.data.isDelete ? "green" : "red"}
+        onPress={route.params.data.isDelete ? activateBadge : deleteBadge}
+        style={{
+          position: "absolute",
+          bottom: 24,
+          width: "100%",
+        }}
+      >
+        {route.params.data.isDelete ? "Rajouter" : "Supprimer"}
+      </CustomButton>
     </SafeAreaView>
   );
 }
@@ -168,10 +238,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
     margin: 30,
-  },
-  btn: {
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
   },
 });

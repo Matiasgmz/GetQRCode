@@ -16,11 +16,46 @@ import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import AddBadgeScreen from "./screens/AddBadgeScreen";
 import ModifyBadge from "./screens/ModifyBadge";
+import DashboardBadgesScreen from "./screens/DashboardBadgesScreen";
 
 import CustomText from "./components/CustomText";
 
 const Stack = createNativeStackNavigator();
 const MainStack = createMaterialBottomTabNavigator();
+
+const AdminStack = () => {
+  return (
+    <MainStack.Navigator
+      initialRouteName="Index"
+      activeColor="black"
+      inactiveColor="#3e2465"
+      barStyle={{ backgroundColor: "white", height: 80 }}
+      screenOptions={{ headerShown: false }}
+    >
+      <MainStack.Screen
+        name="DashBadges"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="trophy-outline" color={color} size={25} />
+          ),
+          tabBarLabel: "",
+        }}
+        component={DashboardBadgesScreen}
+      />
+
+      <MainStack.Screen
+        name="DashUsers"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person-circle-outline" color={color} size={25} />
+          ),
+          tabBarLabel: "",
+        }}
+        component={Profile}
+      />
+    </MainStack.Navigator>
+  );
+};
 
 const LoggedStack = () => {
   return (
@@ -144,6 +179,8 @@ const App = () => {
         {isLogged ? (
           <>
             <Stack.Screen name="Main" component={LoggedStack} />
+            <Stack.Screen name="Dashboard" component={AdminStack} />
+            <Stack.Screen name="UpdateBadge" component={ModifyBadge} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
@@ -154,10 +191,6 @@ const App = () => {
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         )}
-
-        <>
-          <Stack.Screen name="Modifier" component={ModifyBadge} />
-        </>
       </Stack.Navigator>
     </NavigationContainer>
   );
