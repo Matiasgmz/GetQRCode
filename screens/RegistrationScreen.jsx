@@ -84,7 +84,7 @@ const RegistrationScreen = ({ navigation }) => {
       />
 
       <CustomInput
-        secureTextEntry
+        hiddenText
         placeholder="Mot de passe"
         value={form.password}
         onChangeText={(value) => handleChange("password", value)}
@@ -92,7 +92,7 @@ const RegistrationScreen = ({ navigation }) => {
 
       <CustomInput
         style={{ marginTop: 16, marginBottom: 24 }}
-        secureTextEntry
+        hiddenText
         placeholder="Confirmez le mot de passe"
         value={form.confirmPassword}
         onChangeText={(value) => handleChange("confirmPassword", value)}

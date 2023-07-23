@@ -26,6 +26,7 @@ const BadgeScreen = ({ navigation }) => {
     const focusHandler = navigation.addListener("focus", () => {
       getUserBadges();
       setModalVisible(false);
+      setBadgeSelected(-1);
     });
     return focusHandler;
   }, [navigation]);
