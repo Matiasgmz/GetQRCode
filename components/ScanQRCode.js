@@ -52,7 +52,6 @@ const ScanQRCode = ({ route, navigation }) => {
   const handleBarCodeScanned = ({ data, bounds }) => {
     if (route.name !== "Scan" || !navigation.isFocused()) return;
     setScanned(true);
-    console.log(data);
     setLink(data);
 
     const { origin, size } = bounds;

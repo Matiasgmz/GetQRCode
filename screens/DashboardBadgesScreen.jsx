@@ -89,6 +89,14 @@ const DashboardBadgesScreen = ({ navigation }) => {
       </ScrollView>
 
       <CustomButton
+        color="gray"
+        style={{ position: "absolute", bottom: 96, width: "100%" }}
+        onPress={() => navigation.goBack()}
+      >
+        Quitter le dashboard
+      </CustomButton>
+
+      <CustomButton
         style={{ position: "absolute", bottom: 32, width: "100%" }}
         onPress={() => navigation.navigate("AddBadge")}
       >
