@@ -60,17 +60,14 @@ const BadgeScreen = ({ navigation }) => {
     }
   };
 
-  // const handleDeleteBadge = (id) => {
-  //   const token =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGI3ZmVjZTdkZjBmNTA0YTQxNWIxM2UiLCJpYXQiOjE2ODk4NDQ4NTV9.0kOd8JlWAEIuPnVxAO6_f4io7SoIcS73wvNZZghpF8s"; // a effacer
+  const handleDeleteBadge = (id) => {
+    console.log(id);
 
-  //   console.log(id);
-  //   axios.delete("http://10.74.0.59:4000/api/badges/" + id, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  // };
+    const response = axiosInstance({
+      method: "DELETE",
+      url: "/badges/" + id,
+    });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
@@ -179,7 +176,25 @@ const BadgeScreen = ({ navigation }) => {
                       />
                     </MapView>
                   </View>
-                  <View style={{ alignSelf: "center" }}>
+                  <View
+                    style={{
+                      margin: 15,
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={styles.modifyButton}
+                      onPress={() => {
+                        navigation.navigate("Modifier", {
+                          data: badges[badgeSelected],
+                        }),
+                          setModalVisible(false);
+                      }}
+                    >
+                      <Text style={styles.textModifyButton}>Modifier</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity
                       style={styles.deleteButton}
                       title="Supprimer"
@@ -281,7 +296,7 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     borderRadius: 12,
-    width: 200,
+    width: 150,
     backgroundColor: "red",
     color: "white",
     padding: 10,
@@ -290,6 +305,18 @@ const styles = StyleSheet.create({
   textDeleteButton: {
     color: "white",
     textAlign: "center",
+  },
+  textModifyButton: {
+    color: "white",
+    textAlign: "center",
+  },
+  modifyButton: {
+    borderRadius: 12,
+    width: 150,
+    backgroundColor: "green",
+    color: "white",
+    padding: 10,
+    marginTop: 10,
   },
 });
 

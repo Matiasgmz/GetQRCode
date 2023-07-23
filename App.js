@@ -15,6 +15,7 @@ import BadgeScreen from "./screens/BadgeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import AddBadgeScreen from "./screens/AddBadgeScreen";
+import ModifyBadge from "./screens/ModifyBadge";
 
 import CustomText from "./components/CustomText";
 
@@ -153,6 +154,10 @@ const App = () => {
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         )}
+
+        <>
+          <Stack.Screen name="Modifier" component={ModifyBadge} />
+        </>
       </Stack.Navigator>
     </NavigationContainer>
   );
